@@ -1,28 +1,18 @@
 <template>
   <v-app>
     <!-- Barra superior de navegación -->
-    <v-app-bar app flat color="background">
-      <!-- Botón de atrás -->
-      <v-app-bar-nav-icon @click="$router.go(-1)" :ripple="false">
-        <v-icon>mdi-arrow-left</v-icon>
-      </v-app-bar-nav-icon>
-      <!-- En caso de no estar en rutas anidadas el btn se queda vacío para no romper la maquetación -->
-      <v-app-bar-nav-icon>
-        <v-icon></v-icon>
-      </v-app-bar-nav-icon>
-
+    <v-app-bar app flat>
       <!-- Titulo de la vista -->
       <v-spacer />
       <v-toolbar-title class="secondary--text font-weight-black">{{
         this.$route.name
       }}</v-toolbar-title>
       <v-spacer />
-
-      <!-- Arreglo de maquetación -->
-      <v-app-bar-nav-icon>
-        <v-icon></v-icon>
-      </v-app-bar-nav-icon>
     </v-app-bar>
+    <!-- Carrito de la compra -->
+    <v-navigation-drawer app right width="300">
+      <cart-component />
+    </v-navigation-drawer>
     <!-- Vista principal de la app -->
     <v-main>
       <v-container fill-height fluid>
@@ -35,7 +25,9 @@
 </template>
 
 <script>
+import CartComponent from "./components/CartComponent.vue";
 export default {
+  components: { CartComponent },
   name: "App",
 
   data() {

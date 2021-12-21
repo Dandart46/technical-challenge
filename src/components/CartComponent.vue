@@ -1,0 +1,94 @@
+<template>
+  <v-container fill-height fluid>
+    <v-row class="fill-height">
+      <v-col cols="12">
+        <v-list v-if="productCart">
+          <v-list-item-group>
+            <template v-for="(product, index) in productCart">
+              <v-list-item two-line :key="index">
+                <v-list-item-avatar rounded>
+                  <v-img
+                    :src="product[0].image_url"
+                    contain
+                    class="rounded-lg"
+                    height="100"
+                  />
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title
+                    v-text="product[0].productName"
+                    class="text-subtitle-2"
+                  />
+                  <v-list-item-subtitle>
+                    <v-btn icon
+                      ><v-icon small @click="removeProductCart(product[0].id)"
+                        >fas fa-minus</v-icon
+                      ></v-btn
+                    >{{ product.length
+                    }}<v-btn icon
+                      ><v-icon small @click="addProductCart(product[0])"
+                        >fas fa-plus</v-icon
+                      ></v-btn
+                    >
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action
+                  v-text="
+                    `${cartStockPrice(product[0].price, product.length)}$`
+                  "
+                  class="green--text"
+                />
+              </v-list-item>
+            </template>
+          </v-list-item-group>
+        </v-list>
+        <v-subheader v-else class="center-text font-italic"
+          >Your product cart is empty</v-subheader
+        >
+        <v-card v-show="productCart">
+          <v-card-title v-text="`Checkout: `" />
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import { groupBy, isEmpty } from "lodash";
+
+export default {
+  name: "CartComponent",
+  data: () => ({}),
+  methods: {
+    addProductCart(product) {
+      this.$store.dispatch("ProductsStore/addCartProduct", product);
+    },
+    removeProductCart(product_id) {
+      this.$store.dispatch("ProductsStore/removeCartProduct", product_id);
+    },
+    cartStockPrice(price, cartStock) {
+      return price * cartStock;
+    },
+    totalPrice(prices, amountItems) {
+      return prices * amountItems;
+    },
+  },
+  computed: {
+    productCart() {
+      const products = this.$store.getters["ProductsStore/getProductCart"];
+      /**
+       * Método de Lodash para hacer un group del array por id.
+       */
+      let productGroup = groupBy(products, "id");
+      if (isEmpty(productGroup)) {
+        return false;
+      } else {
+        return productGroup;
+      }
+    },
+  },
+};
+</script>
+
+<style>
+</style>

@@ -3,22 +3,39 @@ import { listProductsService } from "../../services/Products/ListProductsService
 export const ProductsStore = {
     namespaced: true,
     state: {
-        productList: [],
+        product_list: [],
+        cart_list: [],
     },
     mutations: {
-        setProductList(state, payload) {
-            state.productList = payload.data;
+        SET_ALL_LIST_PRODUCT(state, payload) {
+            state.product_list = payload.data;
         },
+        SET_CART_PRODUCT(state, payload) {
+            state.cart_list.push(payload);
+        },
+        REMOVE_CART_PRODUCT(state, payload) {
+            state.cart_list.splice(payload, 1);
+        }
     },
     actions: {
-        getProductList: async function ({ commit }) {
+        fetchProducts: async function ({ commit }) {
             const response = await listProductsService("/grocery");
-            commit("setProductList", response);
+            commit("SET_ALL_LIST_PRODUCT", response);
+        },
+        addCartProduct: async function ({ commit }, product) {
+            commit("SET_CART_PRODUCT", product);
+        },
+        removeCartProduct: async function ({ commit, state }, product_id) {
+            const index = state.cart_list.map(item => item.id).indexOf(product_id);
+            commit("REMOVE_CART_PRODUCT", index);
         },
     },
     getters: {
-        productListGetter(state) {
-            return state.productList;
+        getProductList(state) {
+            return state.product_list;
+        },
+        getProductCart(state) {
+            return state.cart_list;
         },
     },
 };

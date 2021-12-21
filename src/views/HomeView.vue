@@ -1,22 +1,24 @@
 <template>
-  <v-container fluid class="fill-height align-end pa-0">
-    <v-row class="align-self-start">
-      <v-col cols="12" align-self="start" class="pa-0">{{
-        notificaciones
-      }}</v-col>
+  <v-container fill-height fluid>
+    <v-row class="fill-height">
+      <v-col cols="12">
+        <list-component :products="productList.slice(0, 20)" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import ListComponent from "../components/ListComponent.vue";
 export default {
+  components: { ListComponent },
   name: "HomeView",
-  async mounted() {
-    await this.$store.dispatch("ProductsStore/getProductList");
+  async created() {
+    await this.$store.dispatch("ProductsStore/fetchProducts");
   },
   computed: {
-    notificaciones() {
-      return this.$store.getters["ProductsStore/productListGetter"];
+    productList() {
+      return this.$store.getters["ProductsStore/getProductList"];
     },
   },
 };
