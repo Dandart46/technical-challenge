@@ -27,8 +27,8 @@ export const ProductsStore = {
         }
     },
     actions: {
-        fetchProducts: async function ({ commit }) {
-            const response = await Product.listProductsService("/grocery");
+        fetchProducts: async function ({ commit }, limit) {
+            const response = await Product.listProductsService("/grocery?_limit=" + limit);
             commit("SET_ALL_LIST_PRODUCT", response);
         },
         addCartProduct: async function ({ commit }, product) {
