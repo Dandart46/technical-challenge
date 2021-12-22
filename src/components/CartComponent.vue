@@ -21,7 +21,7 @@
                   />
                   <v-list-item-subtitle>
                     <v-btn icon
-                      ><v-icon small @click="removeProductCart(product[0].id)"
+                      ><v-icon small @click="removeProductCart(product[0])"
                         >fas fa-minus</v-icon
                       ></v-btn
                     >{{ product.length
@@ -46,7 +46,7 @@
           >Your product cart is empty</v-subheader
         >
         <v-card v-show="productCart">
-          <v-card-title v-text="`Checkout: `" />
+          <v-card-title v-text="`Checkout: ${totalPrice}`" />
         </v-card>
       </v-col>
     </v-row>
@@ -63,14 +63,11 @@ export default {
     addProductCart(product) {
       this.$store.dispatch("ProductsStore/addCartProduct", product);
     },
-    removeProductCart(product_id) {
-      this.$store.dispatch("ProductsStore/removeCartProduct", product_id);
+    removeProductCart(product) {
+      this.$store.dispatch("ProductsStore/removeCartProduct", product);
     },
     cartStockPrice(price, cartStock) {
       return price * cartStock;
-    },
-    totalPrice(prices, amountItems) {
-      return prices * amountItems;
     },
   },
   computed: {
@@ -85,6 +82,10 @@ export default {
       } else {
         return productGroup;
       }
+    },
+    totalPrice() {
+      const price = this.$store.getters["ProductsStore/getTotalPriceCart"];
+      return price;
     },
   },
 };

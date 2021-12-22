@@ -24,11 +24,17 @@
                     <span
                       v-text="`${product.stock} left`"
                       :class="
-                        product.stock < 1 ? 'red--text' : 'secondary--text'
+                        product.stock < 1
+                          ? 'red--text font-italic'
+                          : 'secondary--text font-italic'
                       "
                     />
                     <v-spacer />
-                    <v-btn @click="addProductCart(product)" class="primary">
+                    <v-btn
+                      @click="addProductCart(product)"
+                      class="primary"
+                      :disabled="product.stock < 1 ? true : false"
+                    >
                       Add
                     </v-btn>
                   </v-card-actions>
