@@ -7,7 +7,8 @@
             <v-col
               v-for="(product, index) in productList"
               :key="index"
-              cols="3"
+              cols="6"
+              lg="3"
             >
               <v-item>
                 <v-card max-width="300">
@@ -30,7 +31,7 @@
                       :class="
                         product.stock < 1
                           ? 'red--text font-italic'
-                          : 'secondary--text font-italic'
+                          : 'green--text font-italic'
                       "
                     />
                     <v-spacer />

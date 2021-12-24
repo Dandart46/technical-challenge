@@ -17,7 +17,7 @@
                 <v-list-item-content>
                   <v-list-item-title
                     v-text="product[0].productName"
-                    class="text-subtitle-2"
+                    class="text-subtitle-2 text-wrap"
                   />
                   <v-list-item-subtitle>
                     <v-btn icon
@@ -36,7 +36,7 @@
                   v-text="
                     `${cartStockPrice(product[0].price, product.length)}$`
                   "
-                  class="green--text"
+                  class="secondary--text"
                 />
               </v-list-item>
             </template>
@@ -46,7 +46,13 @@
           >Your product cart is empty</v-subheader
         >
         <v-card v-show="productCart">
-          <v-card-title v-text="`Checkout: ${totalPrice}`" />
+          <v-card-title
+            v-text="`Total amount: ${totalPrice}$`"
+            class="text-subtitle-2"
+          />
+          <v-card-actions>
+            <v-btn block color="primary">Make a payment</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -59,6 +65,9 @@ import { groupBy, isEmpty } from "lodash";
 export default {
   name: "CartComponent",
   data: () => ({}),
+  mounted() {
+    console.log("djksljdksljdksldjksl");
+  },
   methods: {
     addProductCart(product) {
       this.$store.dispatch("ProductsStore/addCartProduct", product);

@@ -1,16 +1,35 @@
 <template>
   <v-app>
     <!-- Barra superior de navegación -->
-    <v-app-bar app flat>
-      <!-- Titulo de la vista -->
+    <v-app-bar app flat color="background">
+      <v-app-bar-nav-icon
+        @click="$router.go(-1)"
+        v-if="cartRoute"
+        :ripple="false"
+      >
+        <v-icon>fas fa-chevron-left</v-icon>
+      </v-app-bar-nav-icon>
       <v-spacer />
-      <v-toolbar-title class="secondary--text font-weight-black">{{
+      <!-- Titulo de la vista -->
+      <v-toolbar-title class="font-weight-black">{{
         this.$route.name
       }}</v-toolbar-title>
       <v-spacer />
+      <v-app-bar-nav-icon
+        v-if="this.$vuetify.breakpoint.name == 'xs' && !cartRoute"
+      >
+        <v-btn icon to="/cart" :ripple="false"
+          ><v-icon>fas fa-shopping-cart</v-icon></v-btn
+        >
+      </v-app-bar-nav-icon>
     </v-app-bar>
     <!-- Carrito de la compra -->
     <v-navigation-drawer app right width="300">
+      <v-app-bar flat color="background">
+        <v-spacer />
+        <v-toolbar-title class="font-weight-black"> Cart </v-toolbar-title>
+        <v-spacer />
+      </v-app-bar>
       <cart-component />
     </v-navigation-drawer>
     <!-- Vista principal de la app -->
@@ -36,13 +55,12 @@ export default {
       overlay: true,
     };
   },
-
   computed: {
     /**
      * Computed para mirar la ruta de home
      */
-    homeRoute: function () {
-      if (this.$route.name == "Home") {
+    cartRoute: function () {
+      if (this.$route.name == "Cart") {
         return true;
       } else {
         return false;
