@@ -8,12 +8,26 @@
               v-for="(product, index) in productList"
               :key="index"
               cols="6"
+              md="3"
+              sm="6"
               lg="3"
             >
               <v-item>
                 <v-card max-width="300">
-                  <v-img height="100" :src="product.image_url" />
-
+                  <v-img
+                    height="100"
+                    :src="product.image_url"
+                    class="white--text align-end"
+                  />
+                  <v-btn
+                    icon
+                    @click="changeProductFav(product, 0)"
+                    v-if="product.favorite == '1'"
+                    ><v-icon>fas fa-heart</v-icon></v-btn
+                  >
+                  <v-btn icon @click="changeProductFav(product, 1)" v-else
+                    ><v-icon>far fa-heart</v-icon></v-btn
+                  >
                   <div>
                     <v-card-title class="text-subtitle-2"
                       >{{ product.productName }} <v-spacer />
@@ -71,6 +85,13 @@ export default {
     },
     addProductCart(product) {
       this.$store.dispatch("ProductsStore/addCartProduct", product);
+    },
+    changeProductFav(product, fav) {
+      this.$store.dispatch("ProductsStore/changeFavProduct", {
+        product: product,
+        fav: fav,
+      });
+      this.$router.push("/fav");
     },
     scrollLoader() {
       window.onscroll = () => {

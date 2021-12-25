@@ -1,10 +1,12 @@
 import { listProductsService } from "./ListProductsService";
 import { changeProductStockService } from "./ChangeProductStockService";
+import { changeProductFavService } from "./ChangeProductFavService";
 
 
 const Product = {
     listProductsService,
-    changeProductStockService
+    changeProductStockService,
+    changeProductFavService
 }
 
 export default Product;

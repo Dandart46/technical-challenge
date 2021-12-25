@@ -2,12 +2,10 @@
   <v-app>
     <!-- Barra superior de navegación -->
     <v-app-bar app flat color="background">
-      <v-app-bar-nav-icon
-        @click="$router.go(-1)"
-        v-if="cartRoute"
-        :ripple="false"
-      >
-        <v-icon>fas fa-chevron-left</v-icon>
+      <v-app-bar-nav-icon v-if="cartRoute || favRoute" :ripple="false">
+        <v-btn icon to="/" :ripple="false"
+          ><v-icon>fas fa-chevron-left</v-icon></v-btn
+        >
       </v-app-bar-nav-icon>
       <v-spacer />
       <!-- Titulo de la vista -->
@@ -15,16 +13,19 @@
         this.$route.name
       }}</v-toolbar-title>
       <v-spacer />
-      <v-app-bar-nav-icon
-        v-if="this.$vuetify.breakpoint.name == 'xs' && !cartRoute"
-      >
+      <v-app-bar-nav-icon v-if="!favRoute">
+        <v-btn icon to="/fav" :ripple="false"
+          ><v-icon>fas fa-heart</v-icon></v-btn
+        >
+      </v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="mobileBreakpoints && !cartRoute">
         <v-btn icon to="/cart" :ripple="false"
           ><v-icon>fas fa-shopping-cart</v-icon></v-btn
         >
       </v-app-bar-nav-icon>
     </v-app-bar>
     <!-- Carrito de la compra -->
-    <v-navigation-drawer app right width="300">
+    <v-navigation-drawer app right width="300" v-if="!mobileBreakpoints">
       <v-app-bar flat color="background">
         <v-spacer />
         <v-toolbar-title class="font-weight-black"> Cart </v-toolbar-title>
@@ -55,6 +56,9 @@ export default {
       overlay: true,
     };
   },
+  created() {
+    console.log(this.$vuetify.breakpoint.name);
+  },
   computed: {
     /**
      * Computed para mirar la ruta de home
@@ -65,6 +69,28 @@ export default {
       } else {
         return false;
       }
+    },
+    favRoute: function () {
+      if (this.$route.name == "Fav") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    mobileBreakpoints() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return true;
+        case "sm":
+          return true;
+        case "md":
+          return true;
+        case "lg":
+          return false;
+        case "xl":
+          return false;
+      }
+      return false;
     },
   },
 };

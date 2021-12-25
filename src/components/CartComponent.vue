@@ -64,10 +64,6 @@ import { groupBy, isEmpty } from "lodash";
 
 export default {
   name: "CartComponent",
-  data: () => ({}),
-  mounted() {
-    console.log("djksljdksljdksldjksl");
-  },
   methods: {
     addProductCart(product) {
       this.$store.dispatch("ProductsStore/addCartProduct", product);
